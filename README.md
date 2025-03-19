@@ -1,8 +1,4 @@
 # PML-CD:https://github.com/zcbg123/PMLNet.git
-
- 
-
-[image-PMLNet](/image/PMLNet.png)
 ### Requirement  
 ```bash
 -Pytorch 1.8.0+  
