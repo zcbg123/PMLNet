@@ -6,8 +6,8 @@ import torch.nn.functional as F
 from einops import rearrange, reduce
 from torch.nn import Module, ModuleList, Sigmoid
 from torch import nn, einsum
-from network.LGAA import *
-from network.LGCE import LGCE
+from network.GLFA import *
+from network.GLSE import GLSE
 from torchvision import models
 
 
@@ -254,7 +254,7 @@ class ConV5(nn.Module):
 
 class PMLNet(nn.Module):
     def __init__(self,):
-        super(FMENet, self).__init__()
+        super(PMLNet, self).__init__()
         vgg16_bn = models.vgg16_bn(pretrained=True)
         self.inc = vgg16_bn.features[:5]  
         self.down1 = vgg16_bn.features[5:12]  
@@ -271,16 +271,16 @@ class PMLNet(nn.Module):
         self.conv_reduce_4 = DWConv(512*2,512,3,1,1)
 
 
-        self.lgaa4 = LGAA4().cuda()
-        self.lgaa3 = LGAA3().cuda()
-        self.lgaa2 = LGAA2().cuda()
-        self.lgaa1 = LGAA1().cuda()
+        self.lgaa4 = GLFA4().cuda()
+        self.lgaa3 = GLFA3().cuda()
+        self.lgaa2 = GLFA2().cuda()
+        self.lgaa1 = GLFA1().cuda()
 
-        self.lgce4 = LGCE(512).cuda()
-        self.lgce4_1 = LGCE(1024).cuda()
-        self.lgce3 = LGCE(512).cuda()
-        self.lgce2 = LGCE(256).cuda()
-        self.lgce1 = LGCE(128).cuda()
+        self.lgce4 = GLSE(512).cuda()
+        self.lgce4_1 = GLSE(1024).cuda()
+        self.lgce3 = GLSE(512).cuda()
+        self.lgce2 = GLSE(256).cuda()
+        self.lgce1 = GLSE(128).cuda()
 
         self.channelfusion4 = nn.Sequential(nn.Conv2d(512, 512, 1), nn.BatchNorm2d(512), nn.ReLU())
         self.channelfusion3 = nn.Sequential(nn.Conv2d(512, 512, 1), nn.BatchNorm2d(512), nn.ReLU())
